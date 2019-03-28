@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LoginDemo</string>
+    <string name="noofattempts">No of attempts remaining: 5</string>
+    <string name="incormsg1">Incorrect username</string>
+    <string name="incormsg2">Incorrect password</string>
+    <string name="noofattempts2">No of attempts remaining:</string>
 </resources>

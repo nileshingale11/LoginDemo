@@ -1,6 +1,7 @@
 package com.example.logindemo;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,14 +23,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDb = new DatabaseHelper(this);
+        //Add welcome screen content
+        int SPLASH_TIME_OUT = 4000;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent homeIntent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(homeIntent);
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
 
-        Name = (EditText)findViewById(R.id.etName);
-        Password = (EditText)findViewById(R.id.etPassword);
-        Info = (TextView)findViewById(R.id.tvInfo);
-        Login = (Button)findViewById(R.id.btnLogin);
-        InputError = (TextView)findViewById(R.id.tvError);
-        Info.setText("No of attempts remaining: 5");
+        myDb = new DatabaseHelper(this);
+        Name = findViewById(R.id.etName);
+        Password = findViewById(R.id.etPassword);
+        Info = findViewById(R.id.tvInfo);
+        Login = findViewById(R.id.btnLogin);
+        InputError = findViewById(R.id.tvError);
+        Info.setText(getString(R.string.noofattempts));
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             if (!userName.equals("Admin")) {
-                InputError.setText("Incorrect username");
+                InputError.setText(getString(R.string.incormsg1));
             } else {
-                InputError.setText("Incorrect password");
+                InputError.setText(getString(R.string.incormsg2));
             }
             counter--;
-            Info.setText("No of attempts remaining: "+ String.valueOf(counter));
+            Info.setText(String.format("%s%s", getString(R.string.noofattempts2), String.valueOf(counter)));
             if (counter == 0) {
                 Login.setEnabled(false);
             }
